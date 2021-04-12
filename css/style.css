@@ -1,0 +1,93 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  padding: 50px;
+  background-color: #ddd;
+}
+#images {
+  position: relative;
+  background-color: white;
+  height: 400px;
+  margin-top: 50px;
+  border-radius: 20px;
+  padding: 20px;
+}
+#images img {
+  float: left;
+  width: 25%;
+
+  height: 300px;
+  object-fit: contain;
+  box-shadow: -10px 10px 15px 5px rgba(51, 51, 51, 0.24);
+}
+#images img:active {
+  width: 24%;
+}
+#images #left-image {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+#images #middle-image {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  /* transform: translateY(-50%); */
+}
+#images #right-image {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+ul {
+  /* list-style: disc; */
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+ul li {
+  margin: 10px 10px;
+  font-size: 20px;
+  background-color: white;
+  padding: 10px;
+  width: fit-content;
+  border-radius: 10px;
+  flex-basis: 40%;
+  text-align: center;
+}
+
+#button button {
+  background-color: rgb(46, 91, 175);
+  border: none;
+  padding: 10px 20px;
+  width: auto;
+  height: auto;
+  color: white;
+  font-size: 20px;
+  display: block;
+  /* margin: 0 auto; */
+  margin-top: 20px;
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+#button {
+  /* width: 100%; */
+  display: flex;
+  justify-content: center;
+}
+
+main p {
+  font-size: 22px;
+  text-align: center;
+}
+main p span {
+  color: rgb(46, 91, 175);
+}
