@@ -81,7 +81,6 @@ renderImages();
 imagesElement.addEventListener('click', clickImagesHandler);
 
 let showResultButton;
-let hideResultButton;
 
 function clickImagesHandler(event) {
   if (event.currentTarget !== event.target) {
@@ -96,12 +95,7 @@ function clickImagesHandler(event) {
       buttonDiv.appendChild(showResultButton);
       showResultButton.textContent = 'Show Result';
 
-      hideResultButton = document.createElement('button');
-      buttonDiv.appendChild(hideResultButton);
-      hideResultButton.textContent = 'Hide Result';
-
       showResultButton.addEventListener('click', showResultHandler);
-      hideResultButton.addEventListener('click', hideResultHandler);
     }
 
     if (maxTries - userTriesCounter >= 0) {
@@ -125,21 +119,25 @@ function clickImagesHandler(event) {
     }
   }
 }
-
+let showHide = true;
 function showResultHandler() {
   let list = document.getElementById('results-list');
 
   let Result;
 
-  for (let i = 0; i < Product.allProducts.length; i++) {
-    Result = document.createElement('li');
-    list.appendChild(Result);
+  if (showHide) {
+    for (let i = 0; i < Product.allProducts.length; i++) {
+      Result = document.createElement('li');
+      list.appendChild(Result);
 
-    Result.textContent = `${Product.allProducts[i].name} has ${Product.allProducts[i].votes} votes, and was seen ${Product.allProducts[i].timesDisplayed} times.`;
+      Result.textContent = `${Product.allProducts[i].name} has ${Product.allProducts[i].votes} votes, and was seen ${Product.allProducts[i].timesDisplayed} times.`;
+    }
+    showHide = false;
+    showResultButton.textContent = 'Hide Result';
+  } else {
+    let list = document.getElementById('results-list');
+    list.textContent = '';
+    showHide = true;
+    showResultButton.textContent = 'Show Result';
   }
-}
-
-function hideResultHandler() {
-  let list = document.getElementById('results-list');
-  list.textContent = '';
 }
