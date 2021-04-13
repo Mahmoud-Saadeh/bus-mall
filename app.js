@@ -13,8 +13,13 @@ let leftImageIndex;
 let middleImageIndex;
 let rightImageIndex;
 
+let nameArr = [];
+let votesArr = [];
+let timesDisplayedArr = [];
+
 function Product(name, source) {
   this.name = name;
+  nameArr.push(name);
   this.source = source;
   this.votes = 0;
   this.timesDisplayed = 0;
@@ -42,13 +47,14 @@ new Product('unicorn', 'img/unicorn.jpg');
 new Product('usb', 'img/usb.gif');
 new Product('water-can', 'img/water-can.jpg');
 new Product('wine-glass', 'img/wine-glass.jpg');
-console.log(Product.allProducts);
 
 function randomIndex() {
   return Math.floor(Math.random() * Product.allProducts.length);
 }
 
 function renderImages() {
+  let prevImagesArr = [leftImageIndex, middleImageIndex, rightImageIndex];
+
   leftImageIndex = randomIndex();
   middleImageIndex = randomIndex();
   rightImageIndex = randomIndex();
@@ -56,13 +62,15 @@ function renderImages() {
   while (
     leftImageIndex === middleImageIndex ||
     leftImageIndex === rightImageIndex ||
-    middleImageIndex === rightImageIndex
+    middleImageIndex === rightImageIndex ||
+    prevImagesArr.includes(leftImageIndex) ||
+    prevImagesArr.includes(middleImageIndex) ||
+    prevImagesArr.includes(rightImageIndex)
   ) {
     leftImageIndex = randomIndex();
     middleImageIndex = randomIndex();
+    rightImageIndex = randomIndex();
   }
-
-  console.log(leftImageIndex, middleImageIndex, rightImageIndex);
 
   leftImageElement.src = Product.allProducts[leftImageIndex].source;
   middleImageElement.src = Product.allProducts[middleImageIndex].source;
@@ -119,11 +127,15 @@ function clickImagesHandler(event) {
     }
   }
 }
+
 let showHide = true;
+let callOnce = 0;
 function showResultHandler() {
   let list = document.getElementById('results-list');
 
   let Result;
+
+  let ctx = document.getElementById('myChart');
 
   if (showHide) {
     for (let i = 0; i < Product.allProducts.length; i++) {
@@ -131,13 +143,64 @@ function showResultHandler() {
       list.appendChild(Result);
 
       Result.textContent = `${Product.allProducts[i].name} has ${Product.allProducts[i].votes} votes, and was seen ${Product.allProducts[i].timesDisplayed} times.`;
+
+      timesDisplayedArr.push(Product.allProducts[i].timesDisplayed);
+
+      votesArr.push(Product.allProducts[i].votes);
+
+      //push all of the final values into arrays
     }
     showHide = false;
     showResultButton.textContent = 'Hide Result';
+
+    ctx.style.visibility = 'visible';
+
+    if (callOnce === 0) {
+      resultsBarChart();
+      callOnce++;
+    }
   } else {
     let list = document.getElementById('results-list');
     list.textContent = '';
     showHide = true;
     showResultButton.textContent = 'Show Result';
+
+    ctx.style.visibility = 'hidden';
   }
+}
+
+function resultsBarChart() {
+  let ctx = document.getElementById('myChart').getContext('2d');
+  const labels = nameArr;
+  const data = {
+    labels: labels,
+    datasets: [
+      {
+        label: 'Votes',
+        data: votesArr,
+        backgroundColor: ['rgba(255, 99, 132, 0.7)'],
+        borderColor: ['rgb(255, 99, 132)'],
+        borderWidth: 1,
+      },
+      {
+        label: 'Times Displayed',
+        data: timesDisplayedArr,
+        backgroundColor: ['rgba(46, 91, 175,0.7)'],
+        borderColor: ['rgb(46, 91, 175)'],
+        borderWidth: 1,
+      },
+    ],
+  };
+  const config = {
+    type: 'bar',
+    data: data,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  };
+  new Chart(ctx, config);
 }

@@ -91,3 +91,7 @@ main p {
 main p span {
   color: rgb(46, 91, 175);
 }
+
+.charts {
+  height: 400px;
+}
