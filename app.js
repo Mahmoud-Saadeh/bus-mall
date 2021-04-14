@@ -52,6 +52,16 @@ function randomIndex() {
   return Math.floor(Math.random() * Product.allProducts.length);
 }
 
+function getPrevValues() {
+  let prevStorage = JSON.parse(localStorage.getItem('Products'));
+  if (prevStorage) {
+    for (let i = 0; i < prevStorage.length; i++) {
+      Product.allProducts[i]['timesDisplayed'] = prevStorage[i].timesDisplayed;
+      Product.allProducts[i]['votes'] = prevStorage[i].votes;
+    }
+  }
+}
+getPrevValues();
 function renderImages() {
   let prevImagesArr = [leftImageIndex, middleImageIndex, rightImageIndex];
 
@@ -131,6 +141,8 @@ function clickImagesHandler(event) {
 let showHide = true;
 let callOnce = 0;
 function showResultHandler() {
+  localStorage.setItem('Products', JSON.stringify(Product.allProducts));
+
   let list = document.getElementById('results-list');
 
   let Result;
