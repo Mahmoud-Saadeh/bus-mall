@@ -9,3 +9,5 @@ the results contain how many time the user select that image and how many times 
 April/13/2021: the products generated are not duplicates from the immediate previous set, and the Bar chart from Chart.js Library
 
 April/14/2021: Added LocalStorage to Make sure the data persists across both browser refreshes and resets.
+
+[Live URL](https://mahmoud-saadeh.github.io/bus-mall/)
